@@ -1,4 +1,3 @@
-# terraform file for roles with the name of `variables.tf`
 variable "master-role-policy" {
   default = "petclinic_policy_for_master_role"
 }
