@@ -1,4 +1,3 @@
-# terraform file for kubernetes Infrastructure consisting of 1 master, 2 Worker Nodes
 provider "aws" {
   region  = "us-east-1"
 }
