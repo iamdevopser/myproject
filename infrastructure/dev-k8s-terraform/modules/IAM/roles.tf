@@ -1,4 +1,3 @@
-# terraform file for roles with the name of `roles.tf`
 resource "aws_iam_policy" "policy_for_master_role" {
   name        = var.master-role-policy
   policy      = file("./modules/IAM/policy_for_master.json")
