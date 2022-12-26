@@ -1,3 +1,4 @@
+# Prepare a script to create Docker Registry for `dev` on AWS ECR
 PATH="$PATH:/usr/local/bin"
 APP_REPO_NAME="clarusway-repo/petclinic-app-dev"
 AWS_REGION="us-east-1"
