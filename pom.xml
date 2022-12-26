@@ -139,6 +139,7 @@
             <build>
                 <pluginManagement>
                     <plugins>
+<!--Update POM file at root folder for Code Coverage Report using `Jacoco` tool plugin.-->
 <plugin>
     <groupId>org.jacoco</groupId>
     <artifactId>jacoco-maven-plugin</artifactId>
