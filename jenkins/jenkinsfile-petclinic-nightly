@@ -1,6 +1,7 @@
 pipeline {
     agent any
-    environment {
+    # project environments will be here
+    environment { 
         PATH=sh(script:"echo $PATH:/usr/local/bin", returnStdout:true).trim()
         APP_NAME="petclinic"
         APP_REPO_NAME="clarusway-repo/${APP_NAME}-app-dev"
@@ -12,6 +13,7 @@ pipeline {
         ANSIBLE_HOST_KEY_CHECKING="False"
     }
     stages {
+        # This stage creates ECR Repo if not exist
         stage('Create ECR Repo') {
             steps {
                 echo "Creating ECR Repo for ${APP_NAME} app"
@@ -31,12 +33,14 @@ pipeline {
                 '''
             }
         }
+        # This stage packages the app into the jar files with maven
         stage('Package Application') {
             steps {
                 echo 'Packaging the app into jars with maven'
                 sh ". ./jenkins/package-with-maven-container.sh"
             }
         }
+        # This stage prepares tags for Docker Images
         stage('Prepare Tags for Docker Images') {
             steps {
                 echo 'Preparing Tags for Docker Images'
@@ -62,6 +66,7 @@ pipeline {
                 }
             }
         }
+        # This stage builds App docker images
         stage('Build App Docker Images') {
             steps {
                 echo 'Building App Dev Images'
@@ -69,12 +74,14 @@ pipeline {
                 sh 'docker image ls'
             }
         }
+        # This stage pushes Images to ECR Repo
         stage('Push Images to ECR Repo') {
             steps {
                 echo "Pushing ${APP_NAME} App Images to ECR Repo"
                 sh ". ./jenkins/push-dev-docker-images-to-ecr.sh"
             }
         }
+        # This stage creates key pair for ansible. Als this will be helpful for creating new instances for QA Automation Infrastructure
         stage('Create Key Pair for Ansible') {
             steps {
                 echo "Creating Key Pair for ${APP_NAME} App"
@@ -82,7 +89,7 @@ pipeline {
                 sh "chmod 400 ${ANS_KEYPAIR}"
             }
         }
-
+        # This stage creates QA Automation Infrastructure
         stage('Create QA Automation Infrastructure') {
             steps {
                 echo 'Creating QA Automation Infrastructure for Dev Environment'
@@ -99,15 +106,14 @@ pipeline {
                 }
             }
         }
-
-
+        # This stage creates kubernetes cluster for QA Automatin Build
         stage('Create Kubernetes Cluster for QA Automation Build') {
             steps {
                 echo "Setup Kubernetes cluster for ${APP_NAME} App"
                 sh "ansible-playbook -i ./ansible/inventory/dev_stack_dynamic_inventory_aws_ec2.yaml ./ansible/playbooks/k8s_setup.yaml"
             }
         }
-
+        # This stage deploys app on kubernetes cluster
         stage('Deploy App on Kubernetes cluster'){
             steps {
                 echo 'Deploying App on Kubernetes'
@@ -121,7 +127,7 @@ pipeline {
                 sh "ansible-playbook -i ./ansible/inventory/dev_stack_dynamic_inventory_aws_ec2.yaml ./ansible/playbooks/dev-petclinic-deploy.yaml"
             }
         }     
-
+        # This stage test the application deployment processes
         stage('Test the Application Deployment'){
             steps {
                 echo "Check if the ${APP_NAME} app is ready or not"
@@ -141,7 +147,7 @@ pipeline {
                 }
             }
         }
-
+        # This stage  runs QA Automation Tests
         stage('Run QA Automation Tests'){
             steps {
                 echo "Run the Selenium Functional Test on QA Environment"
@@ -149,7 +155,7 @@ pipeline {
             }
         }
  }
-
+    # This post deletes all what created, built or tested
     post {
         always {
             echo 'Deleting all local images'
