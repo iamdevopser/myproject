@@ -23,9 +23,9 @@ variable "worker-role-attachment" {
 }
 
 variable "profile_for_master" {
-  default = "petclinic_profile_for_master"
+  default = "petclinic_profile_for_master-tt"
 }
 
 variable "profile_for_worker" {
-  default = "petclinic_profile_for_worker"
+  default = "petclinic_profile_for_worker-tt"
 }
