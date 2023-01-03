@@ -22,12 +22,12 @@ data "aws_vpc" "name" {
   default = true
 }
 
-resource "aws_security_group" "petclinic-mutual-sg-1" {
+resource "aws_security_group" "petclinic-mutual-sg" {
   name = var.sec-gr-mutual
   vpc_id = data.aws_vpc.name.id
 }
 
-resource "aws_security_group" "petclinic-kube-worker-sg-1" {
+resource "aws_security_group" "petclinic-kube-worker-sg" {
   name = var.sec-gr-k8s-worker
   vpc_id = data.aws_vpc.name.id
 
@@ -70,7 +70,7 @@ resource "aws_security_group" "petclinic-kube-worker-sg-1" {
   }
 }
 
-resource "aws_security_group" "petclinic-kube-master-sg-1" {
+resource "aws_security_group" "petclinic-kube-master-sg" {
   name = var.sec-gr-k8s-master
   vpc_id = data.aws_vpc.name.id
 
