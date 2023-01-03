@@ -29,7 +29,7 @@ resource "aws_instance" "tf-jenkins-server" {
   user_data = file("jenkinsdata.sh")
 }
 
-resource "aws_security_group" "tf-jenkins-sec-gr" {
+resource "aws_security_group" "tf-jenkins-sec-gr-1" {
   name = var.jenkins_server_secgr
   tags = {
     Name = var.jenkins_server_secgr
@@ -63,7 +63,7 @@ resource "aws_security_group" "tf-jenkins-sec-gr" {
   }
 }
 
-resource "aws_iam_role" "tf-jenkins-server-role" {
+resource "aws_iam_role" "tf-jenkins-server-role-1" {
   name               = var.jenkins-role
   assume_role_policy = <<EOF
 {
@@ -84,7 +84,7 @@ EOF
   managed_policy_arns = ["arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryFullAccess", "arn:aws:iam::aws:policy/AWSCloudFormationFullAccess", "arn:aws:iam::aws:policy/AdministratorAccess"]
 }
 
-resource "aws_iam_instance_profile" "tf-jenkins-server-profile" {
+resource "aws_iam_instance_profile" "tf-jenkins-server-profile-1" {
   name = var.jenkins-profile
   role = aws_iam_role.tf-jenkins-server-role.name
 }
