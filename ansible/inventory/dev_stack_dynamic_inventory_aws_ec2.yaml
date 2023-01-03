@@ -11,6 +11,10 @@ keyed_groups:
   - key: tags['Role']
     prefix: 'role'
 hostnames:
+<<<<<<< HEAD
   - "www.iamdevopser.com"
+=======
+  - "iamdevopser.com"
+>>>>>>> feature/msp-16
 compose:
   ansible_user: "'ubuntu'"
