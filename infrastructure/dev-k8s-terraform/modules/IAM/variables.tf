@@ -22,10 +22,10 @@ variable "worker-role-attachment" {
   default = "petclinic_attachment_for_worker"
 }
 
-variable "profile_for_master_1" {
-  default = "petclinic_profile_for_master_1"
+variable "profile_for_master" {
+  default = "petclinic_profile_for_master"
 }
 
-variable "profile_for_worker_1" {
-  default = "petclinic_profile_for_worker_1"
+variable "profile_for_worker" {
+  default = "petclinic_profile_for_worker"
 }
